@@ -191,24 +191,32 @@ func (a *AccountHandlerImpl) AuthIncomingRequest(ctx *gin.Context) (user account
 
 func CreateEntityAuth(userId uint64, payloadUserId uint64) (allowed bool, message string) {
 	if userId != payloadUserId {
-		return false, "cannot create entity, unauthorized"
+		userIdStr := strconv.FormatUint(uint64(userId), 10)
+		payloadUserIdStr := strconv.FormatUint(uint64(payloadUserId), 10)
+		return false, "cannot set new userId, stay with your Id, unauthorized " + userIdStr + ":" + payloadUserIdStr
 	}
 	return true, "aman"
 }
 
 func UpdateEntityAuth(userId uint64, payloadUserId uint64, oldEntityUserId uint64) (allowed bool, message string) {
 	if userId != payloadUserId {
-		return false, "cannot set new userId, stay with your Id, unauthorized"
+		userIdStr := strconv.FormatUint(uint64(userId), 10)
+		payloadUserIdStr := strconv.FormatUint(uint64(payloadUserId), 10)
+		return false, "cannot set new userId, stay with your Id, unauthorized " + userIdStr + ":" + payloadUserIdStr
 	}
 	if userId != oldEntityUserId {
-		return false, "cannot set update this entity, not yours, unauthorized"
+		userIdStr := strconv.FormatUint(uint64(userId), 10)
+		oldEntityUserIdStr := strconv.FormatUint(uint64(oldEntityUserId), 10)
+		return false, "cannot set update this entity, not yours, unauthorized" + userIdStr + ":" + oldEntityUserIdStr
 	}
 	return true, "aman"
 }
 
 func DeleteEntityAuth(userId uint64, payloadUserId uint64) (allowed bool, message string) {
 	if userId != payloadUserId {
-		return false, "cannot create entity, unauthorized"
+		userIdStr := strconv.FormatUint(uint64(userId), 10)
+		payloadUserIdStr := strconv.FormatUint(uint64(payloadUserId), 10)
+		return false, "cannot set new userId, stay with your Id, unauthorized " + userIdStr + ":" + payloadUserIdStr
 	}
 	return true, "aman"
 }
@@ -596,7 +604,7 @@ func (a *AccountHandlerImpl) UpdatePhoto(ctx *gin.Context) {
 		return
 	}
 
-	toBeUpdatedPhoto, err := a.accService.GetPhotoById(ctx, photoIn.UserID)
+	toBeUpdatedPhoto, err := a.accService.GetPhotoById(ctx, photoIn.ID)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, response.ErrorResponse{
 			Message:  "error before update, while getting photo",
@@ -606,7 +614,7 @@ func (a *AccountHandlerImpl) UpdatePhoto(ctx *gin.Context) {
 	}
 
 	con, message := UpdateEntityAuth(user.ID, photoIn.UserID, toBeUpdatedPhoto.UserID)
-	if con != true {
+	if !con {
 		ctx.JSON(http.StatusBadRequest, response.ErrorResponse{
 			Message:  message,
 			Error: response.Unauthorized,
@@ -869,7 +877,7 @@ func (a *AccountHandlerImpl) UpdateComment(ctx *gin.Context) {
 		return
 	}
 
-	toBeUpdatedComment, err := a.accService.GetCommentById(ctx, commentIn.UserID)
+	toBeUpdatedComment, err := a.accService.GetCommentById(ctx, commentIn.ID)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, response.ErrorResponse{
 			Message:  "error before update, while getting comment",
@@ -1133,7 +1141,7 @@ func (a *AccountHandlerImpl) UpdateSocialMedia(ctx *gin.Context) {
 		return
 	}
 	
-	toBeUpdatedSocialMedia, err := a.accService.GetSocialMediaById(ctx, socialMediaIn.UserID)
+	toBeUpdatedSocialMedia, err := a.accService.GetSocialMediaById(ctx, socialMediaIn.ID)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, response.ErrorResponse{
 			Message:  "error before update, while getting socialMedia",
