@@ -1,5 +1,9 @@
 # VIDEO DEMO
 
+## Docs POSTMAN
+
+[![demo](./docs.gif)](https://documenter.getpostman.com/view/12984874/2s93XyU3Xm)
+
 ## Full Playlist Demo
 
 [![demo](https://img.youtube.com/vi/sNGbMQrDcBc/0.jpg)](https://www.youtube.com/playlist?list=PLxHiDKxGveYWbzLHLQsIoAV8YoETqS1y-)
