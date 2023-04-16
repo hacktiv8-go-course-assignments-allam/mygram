@@ -1,0 +1,18 @@
+server:
+  name: go-account
+  env: local
+  http:
+    port: 9090
+dataSource:
+  mode: GORM
+  migrate: false
+  postgres:
+    master:
+      host: localhost
+      port: 5432
+      dbName: mygram
+      username: postgres
+      password: iloveTWICE9x
+      maxIdleConnection: 10
+      maxOpenConnection: 10
+      maxIdleTime: 10

@@ -1,0 +1,38 @@
+databases:
+  mygram:
+    tables:
+      user:
+        columns:
+          - id: primary key
+          - username: unique, not null
+          - email: unique, not null
+          - password: not null
+          - age: not null
+        functions:
+          - age: age > 8 validator
+        indexes:
+          - username: unique index
+          - email: unique index
+      photo:
+        columns:
+          - id: primary key
+          - user_id: nullable, foreign key to table user column id
+          - title: not null
+          - photo_url: not null
+        indexes:
+          - user_id: index
+      comment:
+        columns:
+          - id: primary key
+          - user_id: nullable, foreign key to table user column id
+          - photo_id: nullable, foreign key to table photo column id
+          - message: not null
+        indexes:
+          - user_id: index
+          - photo_id: index
+      socialmedia:
+        columns:
+          - id: primary key
+          - user_id: nullable, foreign key to table user column id
+          - name: not null
+          - social_media_url: not null
